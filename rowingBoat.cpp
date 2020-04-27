@@ -5,32 +5,33 @@
 using  namespace std;
 
 //variable declarations
-int boatStatus = 0;
+int horseStatus = 0;
 
-float boatX = 0;
-float boatY = 0;
+float horseX = 0;
+float horseY = 0;
 
 //text variables
 int i, s, m, y; //i is loop variable, s is spacing, m is index var for msg[], y axis value
-string ins[2] = { "B: START BOAT","E: STOP BOAT" };
+string ins[2] = { "B: START HORSE","E: STOP HORSE" };
 string t; //temp string
 
 //function declarations
 void instructions();
 void draw_background();
-void draw_boat();
+void draw_tree(int, int);
+void draw_horse();
 
 //keyboard entries
 void keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
-	case 'B':		//boat start
+	case 'B':		//horse start
 	case 'b':
-		boatStatus = 1;
+		horseStatus = 1;
 		break;
-	case 'E':		//boat stop
+	case 'E':		//horse stop
 	case 'e':
-		boatStatus = 0;
+		horseStatus = 0;
 		break;
 	default:
 		break;
@@ -59,99 +60,154 @@ void instructions()
 
 void draw_background()
 {
-	glPushMatrix();
-
 	glBegin(GL_POLYGON);		//rectangular background lower
-	glColor3f(0.2, 0.5, 0.8);
+	glColor3f(0.2, 0.4, 0.1);
 	glVertex2i(0, 0);
 	glVertex2i(1200, 0);
 	glVertex2i(1200, 220);
 	glVertex2i(0, 220);
 	glEnd();
-	
+
 	glBegin(GL_POLYGON);		//rectangular background upper
 	glColor3f(0.2, 0.6, 0.2);
-	glVertex2i(0,220);
-	glVertex2i(1200,220);
-	glVertex2i(1200,750);
-	glVertex2i(0,750);
+	glVertex2i(0, 220);
+	glVertex2i(1200, 220);
+	glVertex2i(1200, 750);
+	glVertex2i(0, 750);
 	glEnd();
-
-	glPopMatrix();
 }
 
-void draw_Boat()
+void draw_tree(int x, int y)
 {
-	glPushMatrix();
-
-	glBegin(GL_POLYGON);		//boat
-	glColor3f(0.9, 0.5, 0.1);
-	glVertex2i(250, 20);
-	glVertex2i(220, 100);
-	glVertex2i(550, 100);
-	glVertex2i(500, 20);
+	glBegin(GL_POLYGON);		//rectangular trunk
+	glColor3f(0.3, 0.2, 0.1);
+	glVertex2i(0 + x, 0 + y);
+	glVertex2i(0 + x, 120 + y);
+	glVertex2i(20 + x, 120 + y);
+	glVertex2i(20 + x, 0 + y);
 	glEnd();
 
-	glBegin(GL_POLYGON);		//man body
+	glBegin(GL_POLYGON);		//triangle lower
+	glColor3f(0.1, 0.2, 0.1);
+	glVertex2i(x - 60, 120 + y);
+	glVertex2i(x + 80, 120 + y);
+	glVertex2i(x + 10, 230 + y);
+	glEnd();
+
+	glBegin(GL_POLYGON);		//triangle middle
+	glColor3f(0.1, 0.2, 0.1);
+	glVertex2i(x - 40, 190 + y);
+	glVertex2i(x + 60, 190 + y);
+	glVertex2i(x + 10, 300 + y);
+	glEnd();
+
+	glBegin(GL_POLYGON);		//triangle upper
+	glColor3f(0.1, 0.2, 0.1);
+	glVertex2i(x - 20, 260 + y);
+	glVertex2i(x + 40, 260 + y);
+	glVertex2i(x + 10, 360 + y);
+	glEnd();
+}
+
+void draw_horse()
+{
+	int x = 400; //vary x to position the horse in diff. locations along the horizontal axis
+
+	//front leg
+	glBegin(GL_POLYGON);
 	glColor3f(1, 1, 1);
-	glVertex2i(270, 100);
-	glVertex2i(330, 100);
-	glVertex2i(310, 150);
-	glVertex2i(290, 150);
-	glVertex2i(310, 200);
-	glVertex2i(270, 200);
-	glVertex2i(270, 100);
+	glVertex2i(100 + x, 200);
+	glVertex2i(110 + x, 200);
+	glVertex2i(110 + x, 250);
+	glVertex2i(100 + x, 250);
 	glEnd();
 
-	glBegin(GL_POLYGON);	//face
-	glColor3f(1.2, 0.5, 0.4);
-	glVertex2i(275, 200);
-	glVertex2i(295, 200);
-	glVertex2i(295, 220);
-	glVertex2i(300, 220);
-	glVertex2i(295, 250);
-	glVertex2i(275, 250);
-	glVertex2i(275, 200);
+	//back leg
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex2i(190 + x, 200);
+	glVertex2i(180 + x, 200);
+	glVertex2i(180 + x, 250);
+	glVertex2i(190 + x, 250);
 	glEnd();
 
-	glBegin(GL_POLYGON);	//hair
-	glColor3f(0.0, 0.0, 0.0);
-	glVertex2i(295, 250);
-	glVertex2i(300, 270);
-	glVertex2i(275, 260);
-	glVertex2i(275, 250);
-	glVertex2i(295, 250);
+	//body
+	glBegin(GL_POLYGON);
+	glColor3f(0.9, 0.3, 0.1);
+	glVertex2i(100 + x, 250);
+	glVertex2i(190 + x, 250);
+	glVertex2i(190 + x, 300);
+	glVertex2i(100 + x, 300);
 	glEnd();
 
-	glBegin(GL_POLYGON);	//oar
-	glColor3f(0.0, 0.0, 0.0);
-	glVertex2i(310, 150);
-	glVertex2i(250, 0);
-	glVertex2i(270, 0);
-	glVertex2i(310, 160);
-	glVertex2i(310, 150);
+	//neck and face
+	glBegin(GL_POLYGON);
+	glColor3f(0.9, 0.3, 0.1);
+	glVertex2i(120 + x, 300);
+	glVertex2i(90 + x, 390);
+	glVertex2i(60 + x, 330);
+	glVertex2i(60 + x, 350);
+	glVertex2i(80 + x, 350);
+	glVertex2i(100 + x, 300);
 	glEnd();
 
-	glPopMatrix();
+	//mane
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex2i(150 + x, 300);
+	glVertex2i(90 + x, 390);
+	glVertex2i(120 + x, 300);
+	glVertex2i(150 + x, 300);
+	glEnd();
+
+	//muscle
+	glBegin(GL_POLYGON);
+	glColor3f(0, 0, 0);
+	glVertex2i(70 + x, 325);
+	glVertex2i(70 + x, 351);
+	glVertex2i(72 + x, 352);
+	glVertex2i(72 + x, 324);
+	glEnd();
+
+	//tail
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex2i(190 + x, 300);
+	glVertex2i(190 + x, 300);
+	glVertex2i(200 + x, 220);
+	glVertex2i(210 + x, 300);
+	glEnd();
+
+	//eye
+	glPointSize(4);
+	glBegin(GL_POINTS);
+	glColor3f(0, 0, 0);
+	glVertex2i(85 + x, 360);
+	glEnd();
+
 }
 
-//movement of boat
-void boat()
+//movement of horse along x axis in negative direction
+void horse()
 {
-	if (boatStatus == 1)
+	if (horseStatus == 1)
 	{
-		boatX += .5;
+		horseX -= .3; //speed
 	}
-	if (boatX > 1000)
+	if (horseX < -600) //if posn exceeds then reposn
 	{
-		boatX = -600;
+		horseX = +600;
 	}
+
 	glPushMatrix();
-	glTranslatef(boatX, boatY, 0);
-	draw_Boat();
+	glTranslatef(horseX, horseY, 0); //translation
+	draw_horse();					//horse is redrawn
 	glPopMatrix();
 }
-
+//
+//
+//
+//
 void init(void)
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -162,11 +218,18 @@ void init(void)
 
 void myDisplay(void)
 {
-		draw_background();
-		instructions();
-		boat();
-		glFlush();
-		glutPostRedisplay();
+	draw_background();
+	instructions();
+	//trees behind horse
+	draw_tree(700, 220);
+	draw_tree(900, 300);
+	draw_tree(1100, 260);
+	horse();
+	//trees infornt of horse
+	draw_tree(200, 0);
+	draw_tree(500, 0);
+	glFlush();
+	glutPostRedisplay();
 }
 
 void main(int argc, char** argv)
@@ -175,7 +238,7 @@ void main(int argc, char** argv)
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(1150, 600);
 	glutInitWindowPosition(0, 0);
-	glutCreateWindow("Rowing Boat");
+	glutCreateWindow("Horse in the Woods");
 	glutKeyboardFunc(keyboard);
 	glutDisplayFunc(myDisplay);
 	init();
